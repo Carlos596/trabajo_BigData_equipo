@@ -1,0 +1,205 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Grupo_Big_Data",
+    "section": "",
+    "text": "Hola, somos Carlos García, Vera Monteagudo y Zayad Youssof.\nEsta web sirve para presentar el trabajo en equipo para la asignatura “Programación y manejo de datos en la era Del Big Data”, optativa de GECO en la Facultad de Economía de la Universitat de València.\nLa web de la asignatura está aquí y los trabajos de mis compañeros de curso puedes verlos aquí.\nNuesro trabajo lleva por título : Estudio de las plataformas audiovisuales. El objetivo es hacer un análisis con diferentes datos procedentes de las estadísticas de dichas plataformas.\nEl trabajo puede verse aquí."
+  },
+  {
+    "objectID": "las_slides_estan.html",
+    "href": "las_slides_estan.html",
+    "title": "Slides para la presentación",
+    "section": "",
+    "text": "Las transparencias para presentar el trabajo en grupo están aquí."
+  },
+  {
+    "objectID": "my_slides_BigData.html#intro",
+    "href": "my_slides_BigData.html#intro",
+    "title": "Los pingüinos molan",
+    "section": "Intro",
+    "text": "Intro\nVamos a utilizar datos del paquete palmerpenguins. El repo del paquete en CRAN está aquí, el repo de Github está aquí y la página web del paquete está aquí.\nLos datos se pueden cargar en la memoria de de R/RStudio de esta forma:\n\n# install.packages(\"palmerpenguins\")\nlibrary(palmerpenguins)\ndf <- palmerpenguins::penguins\n\nEl dataset contiene observaciones sobre un conjunto de 344 pingüinos de 3 especies. Hay 8 variables."
+  },
+  {
+    "objectID": "my_slides_BigData.html#los-pingüinos-molan",
+    "href": "my_slides_BigData.html#los-pingüinos-molan",
+    "title": "Análisis pltaformas audiovisuales",
+    "section": "Los pingüinos molan",
+    "text": "Los pingüinos molan\nVamos a ver una foto de un pingüinos\n\n\n\n\nUn pingüino chulo"
+  },
+  {
+    "objectID": "my_slides_BigData.html#algunos-gráficos",
+    "href": "my_slides_BigData.html#algunos-gráficos",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "Algunos gráficos",
+    "text": "Algunos gráficos\nBueno pues vamos a hacer algún gráfico, pero claro antes he de cargar los paquetes\n\nlibrary(tidyverse)\n\nArreglo los datos\n\n#- cojos datos de pingüinos y arreglo un poco \ndf <- palmerpenguins::penguins %>% \n  dplyr::select(species, bill_depth_mm, body_mass_g) %>% \n  tidyr::drop_na()"
+  },
+  {
+    "objectID": "my_trabajo_BigData.html",
+    "href": "my_trabajo_BigData.html",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "",
+    "text": "En este trabajo vamos a analizar diferentes datos de la plataforma de Netflix. Primero analizaremos cuantas películas y series han sido incorporadas a dicha plataforma y con dichos gráficos también podemos explicar lo que hay detrás con estos gráficos. Seguidamente hablaremos acerca de cuáles son los países de producción. Posteriormente nos centraremos en los géneros y las series."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#películas",
+    "href": "my_trabajo_BigData.html#películas",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "Películas",
+    "text": "Películas\nEn este grafico podemos observar el número de películas/series que se han ido añadiendo a lo largo de los años, en concreto del año 2000 al 2021. Con este grafico también se puede explicar la historia de esta plataforma a lo largo de los años. En el año 2000, mientras que el alquiler de DVD era su único servicio, Netflix introdujo un sistema de recomendación personalizado basado en 1 a 5 estrellas que los clientes otorgaban al material que alquilaban en su sitio. Se cree que el éxito de la empresa se debe a la mejora continua de este sistema, que cambiará a un sistema de me pulgar arriba/abajo(para indicar si te gusta o no) en 2017, y al uso de otros datos (conocidos como minería de datos) que la plataforma ha obtenido de sus clientes. En 2007, Netflix lanzó su servicio de video a pedido en EE. UU., disponible solo a través de PC; a partir de 2008 se añadieron diversas opciones para acceder al catálogo vía streaming: videoconsolas, Smart TV, tablets, etc.El 25 de febrero de 2007, se envió su DVD número mil millones. Para el año 2009, su catálogo físico ofrecía 100.000 títulos y su base de clientes superaba los 10 millones de suscriptores. En 2011, la empresa se expandió por primera vez fuera de EE. UU. y Canadá, ofreciendo su catálogo vía streaming en América Latina y el Caribe. En 2012 ofreció sus servicios en algunos países europeos y en 2016 proporcionó contenido a todo el mundo, excepto a la región de Crimea, Corea del Norte, China, Irán, Irak y Siria. Como se puede observar en el grafico sobre 2012 empieza a crecer exponencialmente y a ser más conocido internacionalmente. También hay que añadir que en 2020 hay una caída de manera brusca en cuanto al número de películas y series. Esto se debe al COVID-19 y al confinamiento, lo que hacía muy difícil rodar."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#películas-vs-series",
+    "href": "my_trabajo_BigData.html#películas-vs-series",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "Películas vs Series",
+    "text": "Películas vs Series\nDespués de explicar un poco la historia de Netflix y analizar sus altibajos en el anterior gráfico, en este separamos en un mismo grafico el número de películas y el número de series, que como podemos ver el rojo representa TV shows y el azul representa a las películas. Donde se puede observar que predomina la producción de películas. A lo largo de los años esta diferencia se ha ido incrementando hasta 2020, debido al COVID-19, ya que tuvieron que dejar de filmar en pleno rodaje o incluso se llegaron a atrasar."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#películas-y-series-por-continentes",
+    "href": "my_trabajo_BigData.html#películas-y-series-por-continentes",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "Películas y series por continentes",
+    "text": "Películas y series por continentes\nPues cogemos todos los países y agrupados por continentes vemos cuanles hacen más series y películas"
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#país-lider-en-producción",
+    "href": "my_trabajo_BigData.html#país-lider-en-producción",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "País lider en producción",
+    "text": "País lider en producción\nCentrándonos en las películas, en el siguiente grafico podemos distinguir cuantas películas se han producido o rodado en cada país. Hay que tener dos cosas en cuenta en este grafico: La primera es que cuanto más cálido es el cuadrado del país mas películas han sido rodadas en dicho país, si pinchamos encima del cuadrado se puede ver cuantas películas hay por país. La segunda es que la variable de los países la hemos tenido que separar en dos columnas debido a que había filas donde ponían más de un país(por ejemplo: España, Alemania) y no los reconocía como dos países sino que lo consideraba como NA(no existía) ya que no hay un país que se llame España, Alemania."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#semanas-en-el-top-10",
+    "href": "my_trabajo_BigData.html#semanas-en-el-top-10",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "Semanas en el TOP 10",
+    "text": "Semanas en el TOP 10\nCentrándonos ahora un poco más en las series, vamos a analizar cuantas series se han mantenido en el ranking semanal del top 10 en Netflix. Como se puede observar hay una tendencia descendente donde hay muchas series que se mantienen una semana o un par de semanas pero a medida que van aumentando las semanas cada vez hay menos, donde al final dichas series que se mantienen son las mejores o las que más enganchan al público."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#las-series-y-sus-temporadas",
+    "href": "my_trabajo_BigData.html#las-series-y-sus-temporadas",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "Las series y sus temporadas",
+    "text": "Las series y sus temporadas\nEl próximo grafico y tabla representan el total de series agrupadas por el número de temporadas que tienen. Como se puede interpretar en el gráfico, se da una tendencia descendente a medida que aumentan el número de temporadas, esto se debe a que la gente piensa que a partir de las 4-5 temporadas de una serie o incluso tres, una próxima temporada sería hacerla muy larga o densa."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#géneros",
+    "href": "my_trabajo_BigData.html#géneros",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "Géneros",
+    "text": "Géneros\nCentrándonos ahora en la temática de las películas, podemos ver cuáles son los géneros más producidos, donde el primero en el ranking es Dramas(1019), seguido de Comedias(819)."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#géneros-por-año",
+    "href": "my_trabajo_BigData.html#géneros-por-año",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "Géneros por año",
+    "text": "Géneros por año\nSi ahora ya hemos visto cuales son los géneros más producidos, ahora vamos a ver en qué año se produjeron más películas de dichos géneros. El anterior grafico era en total, en este lo hemos dividido por años, donde cada año representa un color, como podemos ver sigue predominando el drama."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#directores-con-más-películas",
+    "href": "my_trabajo_BigData.html#directores-con-más-películas",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "Directores con más películas",
+    "text": "Directores con más películas\nEstos son los directores con más películas producidas en esta plataforma. Hay que añadir que estos datos no son globales sino de Netflix, es decir, los datos son solo de películas que están en esta plataforma. Esto quiere decir que el primero que esta en este ranking no significa que este el primero en el ranking mundial."
+  },
+  {
+    "objectID": "my_trabajo_BigData.html#duración-películas",
+    "href": "my_trabajo_BigData.html#duración-películas",
+    "title": "Estudio de las plataformas audiovisuales",
+    "section": "Duración películas",
+    "text": "Duración películas\nHemos buscado información sobre las películas de Netflix y sobre cual es su media de duración, la media suele estar sobre 105 minutos aproximadamente. Nosotros con los datos que teníamos sobre Netflix obtenidos en Kaggle, hemos realizado un gráfico de dispersión para ver si es cierto que la media se acerca a los 105 minutos, para lograrlo hemos realizado un grafico de dispersión donde cada punto representa cuantas películas hay que duren un determinado número de minutos, por ejemplo, cuantas películas hay que duren 80 minutos. En el grafico nos ha salido una campana de Gauss(distribución normal) y como podemos ver si que puede darse que la media sea de 105 minutos."
+  },
+  {
+    "objectID": "my_slides_BigData.html#índice",
+    "href": "my_slides_BigData.html#índice",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "ÍNDICE",
+    "text": "ÍNDICE\n\nIntroducción\nAnálisis de datos\nOtros datos curiosos\nConclusión"
+  },
+  {
+    "objectID": "my_slides_BigData.html#introduccón",
+    "href": "my_slides_BigData.html#introduccón",
+    "title": "Análisis pltaformas audiovisuales",
+    "section": "Introduccón",
+    "text": "Introduccón\nEn el siguiente trabajo vamos a analizar distintos datos procedentes de las plataformas de películas y series en streaming como Netlix o Amazon, para ello hemos utilizado los datos de la plataforma Kaggle.\n\nplataformas_1 <- rio::import(\"./datos/movies.csv\")\n\nnetflix_1 <- rio::import(\"./datos/netflix.csv\")\n\nall_1 <- rio::import(\"./datos/all_weeks.csv\")\n\namazon_1 <- rio::import(\"./datos/amazon_prime_titles.csv\")\n\nAquí podemos ver la bibliografía utilizada."
+  },
+  {
+    "objectID": "my_slides_BigData.html#introducción",
+    "href": "my_slides_BigData.html#introducción",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "Introducción",
+    "text": "Introducción\nEn el siguiente trabajo vamos a analizar distintos datos procedentes de las plataformas de películas y series en streaming como Netlix o Amazon, para ello hemos utilizado los datos de la plataforma Kaggle.\n\nplataformas_1 <- rio::import(\"./datos/movies.csv\")\n\nnetflix_1 <- rio::import(\"./datos/netflix.csv\")\n\nall_1 <- rio::import(\"./datos/all_weeks.csv\")\n\namazon_1 <- rio::import(\"./datos/amazon_prime_titles.csv\")\n\nAquí podemos ver la bibliografía utilizada."
+  },
+  {
+    "objectID": "my_slides_BigData.html#ránking-películas",
+    "href": "my_slides_BigData.html#ránking-películas",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "Ránking películas",
+    "text": "Ránking películas\nAnálisis de la producción de las películas"
+  },
+  {
+    "objectID": "my_slides_BigData.html#películas-vs-series",
+    "href": "my_slides_BigData.html#películas-vs-series",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "Películas vs Series",
+    "text": "Películas vs Series\nUna comparativa del número de las series y películas de Netflix producidas en los diferentes años."
+  },
+  {
+    "objectID": "my_slides_BigData.html#películas-y-series-por-continentes",
+    "href": "my_slides_BigData.html#películas-y-series-por-continentes",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "Películas y series por continentes",
+    "text": "Películas y series por continentes\n¿En qué continente se produce más?\n\n# falta el gráfico"
+  },
+  {
+    "objectID": "my_slides_BigData.html#en-que-país-se-produce-más",
+    "href": "my_slides_BigData.html#en-que-país-se-produce-más",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "En que país se produce más",
+    "text": "En que país se produce más\n¿Cual es el país líder en producción de series y películas?"
+  },
+  {
+    "objectID": "my_slides_BigData.html#semanas-seguidas-top-10",
+    "href": "my_slides_BigData.html#semanas-seguidas-top-10",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "Semanas seguidas Top 10",
+    "text": "Semanas seguidas Top 10\nPodemos ver el recuento de series y cuantas semanas seguidas suelen durar."
+  },
+  {
+    "objectID": "my_slides_BigData.html#temporadas-por-series",
+    "href": "my_slides_BigData.html#temporadas-por-series",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "Temporadas por series",
+    "text": "Temporadas por series\nRecuento de todas las series con determinado número de temporadas"
+  },
+  {
+    "objectID": "my_slides_BigData.html#géneros-más-producidos",
+    "href": "my_slides_BigData.html#géneros-más-producidos",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "Géneros más producidos",
+    "text": "Géneros más producidos\n¿Cuáles son los géneros que dominan en las plataformas?"
+  },
+  {
+    "objectID": "my_slides_BigData.html#géneros-en-relación-al-año-de-producción",
+    "href": "my_slides_BigData.html#géneros-en-relación-al-año-de-producción",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "Géneros en relación al año de producción",
+    "text": "Géneros en relación al año de producción\nAquí se observa el número de películas producidas por año en cada género"
+  },
+  {
+    "objectID": "my_slides_BigData.html#otros-datos-directores-con-mayor-presencia",
+    "href": "my_slides_BigData.html#otros-datos-directores-con-mayor-presencia",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "OTROS DATOS: directores con mayor presencia",
+    "text": "OTROS DATOS: directores con mayor presencia\nLos directores que más películas tienen en Netflix"
+  },
+  {
+    "objectID": "my_slides_BigData.html#otros-datos-duración-media-de-las-películas",
+    "href": "my_slides_BigData.html#otros-datos-duración-media-de-las-películas",
+    "title": "Análisis plataformas audiovisuales",
+    "section": "OTROS DATOS: Duración media de las películas",
+    "text": "OTROS DATOS: Duración media de las películas\nCuanto es el tiempo media que duran las películas en las plataformas online"
+  }
+]
