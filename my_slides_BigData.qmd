@@ -1,0 +1,737 @@
+---
+title: "Análisis plataformas audiovisuales"  #- título
+date: 2022-12-22             #- ISO8601 YYYY-MM-DD format 
+date-format: short
+format: 
+  revealjs:
+    scrollable: true
+    slide-level: 2
+    height: 900
+    width: 1600
+    toc: false
+    center-title-slide: true
+    title-slide-attributes: #- atributos para la slide de titulo
+      data-background-color: "#562457"   #- color de R-ladies
+    preview-links: auto  #- true: abre un iframe en lugar de abrir ventana
+    link-external-newwindow: true
+    transition: fade
+    fontcolor: "#262d36"
+    highlight-style: a11y
+    code-line-numbers: true
+    number-sections: false
+    slide-number: c/t  
+    incremental: false   
+footer: |
+  Slides hechas con [Quarto](https://quarto.org/) 
+#theme: moon
+---
+
+---
+
+## ÍNDICE
+
+- Introducción
+
+- Análisis de datos
+
+- Otros datos curiosos
+
+- Conclusión
+
+---
+
+## Introducción
+
+En el siguiente trabajo vamos a analizar distintos datos procedentes de las plataformas de películas y series en streaming como Netlix o Amazon, para ello hemos utilizado los datos de la plataforma Kaggle.
+
+```{r}
+plataformas_1 <- rio::import("./datos/movies.csv")
+
+netflix_1 <- rio::import("./datos/netflix.csv")
+
+all_1 <- rio::import("./datos/all_weeks.csv")
+
+amazon_1 <- rio::import("./datos/amazon_prime_titles.csv")
+
+```
+
+
+Aquí podemos ver la bibliografía utilizada.
+
+---
+
+## Ránking películas
+
+Análisis de la producción de las películas
+
+```{r}
+#| echo: false
+
+library(rio)
+library(tidyverse)
+library(forcats)
+library (ggthemes)
+library(ggThemeAssist)
+library(janitor)
+library(dplyr)
+library(plotly)
+library(gganimate)
+library(ggThemeAssist)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(gapminder)
+library(viridis)
+library(highcharter)
+library(treemapify)
+library(treemap)
+
+fs::dir_create("datos")
+
+plataformas_1 <- rio::import("./datos/movies.csv")
+
+netflix_1 <- rio::import("./datos/netflix.csv")
+
+all_1 <- rio::import("./datos/all_weeks.csv")
+
+amazon_1 <- rio::import("./datos/amazon_prime_titles.csv")
+
+
+#dataframes arreglados para cogerlos como base
+
+netflix <-janitor::clean_names(netflix_1)
+
+plataformas <- janitor::clean_names(plataformas_1)
+
+all <- janitor::clean_names(all_1)
+
+amazon <- janitor::clean_names(amazon_1)
+
+#Gráfico 1
+#tabla del gráfico
+
+tabla_1 <- netflix %>% 
+  rename(year = release_date) %>%
+  select(title,year) %>%
+  group_by(year) %>% 
+  filter(!is.na(year),year>=2000) %>%
+  summarise(recuento = n()) %>%
+  arrange(desc(recuento))
+
+#Código del gráfico
+
+p1 <- tabla_1 %>%
+  ggplot(aes(x = year, y = recuento )) + 
+  geom_line(size=2 , color = "red") +
+  geom_point(size=4) +
+  labs(title="NETFLIX",subtitle="Número de peliculas/series en {frame_along}",
+       x="Fecha",
+       y="")+
+  theme_minimal()+
+  transition_reveal(year)
+
+p1 + theme(panel.grid.major = element_line(colour = NA),
+    panel.grid.minor = element_line(colour = NA), axis.line = element_line          (linewidth = 1, colour = "black"),
+    plot.title = element_text(family = "serif")) +labs(y = NULL)
+
+
+```
+
+
+---
+
+## Películas vs Series
+
+Una comparativa del número de las series y películas de Netflix producidas en los diferentes años.
+
+```{r}
+#| echo: false
+
+library(rio)
+library(tidyverse)
+library(forcats)
+library (ggthemes)
+library(ggThemeAssist)
+library(janitor)
+library(dplyr)
+library(plotly)
+library(gganimate)
+library(ggThemeAssist)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(gapminder)
+library(viridis)
+library(highcharter)
+library(treemapify)
+library(treemap)
+
+fs::dir_create("datos")
+
+plataformas_1 <- rio::import("./datos/movies.csv")
+
+netflix_1 <- rio::import("./datos/netflix.csv")
+
+all_1 <- rio::import("./datos/all_weeks.csv")
+
+amazon_1 <- rio::import("./datos/amazon_prime_titles.csv")
+
+
+#dataframes arreglados para cogerlos como base
+
+netflix <-janitor::clean_names(netflix_1)
+
+plataformas <- janitor::clean_names(plataformas_1)
+
+all <- janitor::clean_names(all_1)
+
+amazon <- janitor::clean_names(amazon_1)
+
+#Gráfico 6
+#Hacer tablas
+
+tabla_6 <- netflix %>%
+  filter(release_date>=2000) %>%
+  select(content_type, release_date) %>%
+  count(content_type, release_date)
+
+#Hacer el grafico
+
+
+p6 <- ggplot(tabla_6, aes(release_date, n, color = content_type )) +
+  geom_point() #con geom point no problema pero con geom bar no es lo mismo…
+
+p6<-hchart(tabla_6, "line", hcaes(x =release_date, y = n, group = content_type)) %>% hc_add_theme(hc_theme_google())
+p6
+
+
+
+```
+
+
+---
+
+## En que país se produce más
+
+¿Cual es el país líder en producción de series y películas?
+
+```{r}
+#| echo: false
+
+library(rio)
+library(tidyverse)
+library(forcats)
+library (ggthemes)
+library(ggThemeAssist)
+library(janitor)
+library(dplyr)
+library(plotly)
+library(gganimate)
+library(ggThemeAssist)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(gapminder)
+library(viridis)
+library(highcharter)
+library(treemapify)
+library(treemap)
+
+fs::dir_create("datos")
+
+plataformas_1 <- rio::import("./datos/movies.csv")
+
+netflix_1 <- rio::import("./datos/netflix.csv")
+
+all_1 <- rio::import("./datos/all_weeks.csv")
+
+amazon_1 <- rio::import("./datos/amazon_prime_titles.csv")
+
+
+#dataframes arreglados para cogerlos como base
+
+netflix <-janitor::clean_names(netflix_1)
+
+plataformas <- janitor::clean_names(plataformas_1)
+
+all <- janitor::clean_names(all_1)
+
+amazon <- janitor::clean_names(amazon_1)
+
+#Gráfico 9
+#Hacer tablas
+tabla_5 <- netflix %>% 
+  separate(col=production_country,
+            into = c("pais","sobras"),sep=", ") %>%
+  select(pais,title) %>%
+  group_by(pais) %>%
+  summarize(recuento= n())
+
+
+tabla_10<-tabla_5 %>%
+        slice(c(2:80)) %>% 
+        filter(recuento>=74) %>%
+        arrange(desc(recuento))
+
+#Hacer el gráfico
+
+hc1<-hchart(tabla_10, "treemap", hcaes(x = pais, value =recuento, color = recuento))%>%
+  hc_colorAxis(stops = color_stops(colors = viridis::turbo(10)))
+
+hc1
+
+
+```
+
+---
+
+## Semanas seguidas Top 10
+
+Podemos ver el recuento de series y cuantas semanas seguidas suelen durar.
+
+```{r}
+#| echo: false
+
+library(rio)
+library(tidyverse)
+library(forcats)
+library (ggthemes)
+library(ggThemeAssist)
+library(janitor)
+library(dplyr)
+library(plotly)
+library(gganimate)
+library(ggThemeAssist)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(gapminder)
+library(viridis)
+library(highcharter)
+library(treemapify)
+library(treemap)
+
+fs::dir_create("datos")
+
+plataformas_1 <- rio::import("./datos/movies.csv")
+
+netflix_1 <- rio::import("./datos/netflix.csv")
+
+all_1 <- rio::import("./datos/all_weeks.csv")
+
+amazon_1 <- rio::import("./datos/amazon_prime_titles.csv")
+
+
+#dataframes arreglados para cogerlos como base
+
+netflix <-janitor::clean_names(netflix_1)
+
+plataformas <- janitor::clean_names(plataformas_1)
+
+all <- janitor::clean_names(all_1)
+
+amazon <- janitor::clean_names(amazon_1)
+
+#Gráfico 8
+#Hacer tablas
+
+tabla_8 <- all %>%
+           select(country_name,show_title,cumulative_weeks_in_top_10)%>%
+           filter(country_name == "Spain")%>%
+           group_by(show_title) %>%
+           select(show_title,cumulative_weeks_in_top_10)
+           #%>% summarise(Max = max(cumulative_weeks_in_top_10, na.rm = TRUE)) 
+
+p8 <- ggplot(tabla_8, aes(cumulative_weeks_in_top_10)) + geom_bar(binwidth = 0.8, color = "red", fill="black") + xlab("Cuantas semanas se mantienen en el top 10") + ylab("Recuento total de series")  + scale_x_continuous( breaks = seq(1, 9, by = 1))
+
+
+p8 + theme(axis.line = element_line(linetype = "solid"),
+    panel.background = element_rect(fill = NA))
+
+
+
+
+```
+
+---
+
+## Temporadas por series
+
+Recuento de todas las series con determinado número de temporadas
+
+```{r}
+#| echo: false
+
+library(rio)
+library(tidyverse)
+library(forcats)
+library (ggthemes)
+library(ggThemeAssist)
+library(janitor)
+library(dplyr)
+library(plotly)
+library(gganimate)
+library(ggThemeAssist)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(gapminder)
+library(viridis)
+library(highcharter)
+library(treemapify)
+library(treemap)
+
+fs::dir_create("datos")
+
+plataformas_1 <- rio::import("./datos/movies.csv")
+
+netflix_1 <- rio::import("./datos/netflix.csv")
+
+all_1 <- rio::import("./datos/all_weeks.csv")
+
+amazon_1 <- rio::import("./datos/amazon_prime_titles.csv")
+
+
+#dataframes arreglados para cogerlos como base
+
+netflix <-janitor::clean_names(netflix_1)
+
+plataformas <- janitor::clean_names(plataformas_1)
+
+all <- janitor::clean_names(all_1)
+
+amazon <- janitor::clean_names(amazon_1)
+
+#Gráfico 2
+#Hacer tablas
+
+tabla_2 <- netflix %>% 
+  rename( tipo =content_type ) %>%
+  select( tipo, duration) %>%
+  filter( !is.na(duration), tipo == "TV Show") %>%
+  group_by(duration) %>%
+  summarise(cantidad_series = n()) %>% drop_na() %>%
+  arrange(desc(cantidad_series))
+#Apunte:subset( !(row.names() %in% c("2")))
+
+#Código del gráfico
+#No sale la season 11 en el eje y
+tabla2_2 <- tabla_2 %>% mutate(duration = as_factor(duration)) %>% mutate(duration = fct_reorder(duration,cantidad_series))%>%
+  slice(c(1:10,12:15))
+
+p2 <- tabla2_2 %>%
+  ggplot(aes(x = cantidad_series , y = duration,)) +
+  geom_col(fill ="red")+
+  labs(title="NETFLIX",subtitle="¿Cuantas series hay con x temporadas?")+
+  theme(plot.title= element_text(color="red",size=50,hjust = ,5))
+p2+theme_classic()
+
+
+```
+
+---
+
+## Géneros más producidos
+
+¿Cuáles son los géneros que dominan en las plataformas?
+
+```{r}
+#| echo: false
+
+library(rio)
+library(tidyverse)
+library(forcats)
+library (ggthemes)
+library(ggThemeAssist)
+library(janitor)
+library(dplyr)
+library(plotly)
+library(gganimate)
+library(ggThemeAssist)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(gapminder)
+library(viridis)
+library(highcharter)
+library(treemapify)
+library(treemap)
+
+fs::dir_create("datos")
+
+plataformas_1 <- rio::import("./datos/movies.csv")
+
+netflix_1 <- rio::import("./datos/netflix.csv")
+
+all_1 <- rio::import("./datos/all_weeks.csv")
+
+amazon_1 <- rio::import("./datos/amazon_prime_titles.csv")
+
+
+#dataframes arreglados para cogerlos como base
+
+netflix <-janitor::clean_names(netflix_1)
+
+plataformas <- janitor::clean_names(plataformas_1)
+
+all <- janitor::clean_names(all_1)
+
+amazon <- janitor::clean_names(amazon_1)
+
+#Gráfico 10
+
+
+#Arreglar las tablas
+tabla_11<-netflix%>% 
+         separate(col=genres, into = c("generos","sobras"), sep = ", ")%>%
+         select(title, generos) %>%
+         group_by(generos) %>%
+         summarize(recuento= n()) %>%
+         slice(c(2:80)) %>% 
+         filter(recuento>=74) %>% 
+         arrange(desc(recuento))
+
+#hacer el gráfico
+p11<-hchart(tabla_11 , "pie", hcaes(x = generos, y =recuento )) %>%
+     hc_add_theme(hc_theme_538())
+p11
+
+```
+
+---
+
+## Géneros en relación al año de producción
+
+Aquí se observa el número de películas producidas por año en cada género
+
+```{r}
+#| echo: false
+
+library(rio)
+library(tidyverse)
+library(forcats)
+library (ggthemes)
+library(ggThemeAssist)
+library(janitor)
+library(dplyr)
+library(plotly)
+library(gganimate)
+library(ggThemeAssist)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(gapminder)
+library(viridis)
+library(highcharter)
+library(treemapify)
+library(treemap)
+
+fs::dir_create("datos")
+
+plataformas_1 <- rio::import("./datos/movies.csv")
+
+netflix_1 <- rio::import("./datos/netflix.csv")
+
+all_1 <- rio::import("./datos/all_weeks.csv")
+
+amazon_1 <- rio::import("./datos/amazon_prime_titles.csv")
+
+
+#dataframes arreglados para cogerlos como base
+
+netflix <-janitor::clean_names(netflix_1)
+
+plataformas <- janitor::clean_names(plataformas_1)
+
+all <- janitor::clean_names(all_1)
+
+amazon <- janitor::clean_names(amazon_1)
+
+#Gráfico 12
+#Hacer tablas
+
+tabla_12 <- amazon %>%
+         separate(col=listed_in,into = c("temas","otros_rectas"),sep=",") %>%
+         select(title,temas,release_year) %>%
+         group_by(temas,release_year) %>% 
+         summarise(total_temas_categoria = n()) %>%
+         filter(release_year >= 2017) %>%
+         filter(!(temas %in% c("Young Adult Audience","Western","Unscripted","Talk Show and Variety", "Music Videos and Concerts","Military and War", "LGBTQ", "Historical", "Fantasy", "Faith and Spirituality","Anime","Adventure","Sports", "International", "Arthouse" )) )
+         
+#hacer el gráfico
+p12 <- ggplot(tabla_12, aes(temas, total_temas_categoria, fill = as_factor(release_year))) +
+geom_col(position = position_stack(reverse = TRUE)) +
+  coord_flip() +
+  scale_fill_brewer(palette = "Spectral") + 
+  
+  
+  theme(panel.grid.major = element_line(colour = NA),
+        panel.grid.minor = element_line(colour = NA),
+        axis.text = element_text(face = "bold"),
+        legend.title = element_text(size = 14,
+                                    face = "bold"), panel.background = element_rect(fill = NA),
+        plot.background = element_rect(colour = NA),
+        legend.position = "bottom", legend.direction = "horizontal") +
+  labs(title = NULL,
+       x = NULL, y = "Cantidad de películas producidas",
+       fill = NULL, subtitle = NULL) + 
+  theme(legend.position = "left", legend.direction = "vertical") +
+  labs(caption = "Fuente: Elaboracion propia con datos del INE")
+
+p12 <- ggplotly(p12)
+
+p12
+
+
+```
+
+---
+
+## OTROS DATOS: directores con mayor presencia
+
+Los directores que más películas tienen en Netflix
+
+```{r}
+#| echo: false
+
+library(rio)
+library(tidyverse)
+library(forcats)
+library (ggthemes)
+library(ggThemeAssist)
+library(janitor)
+library(dplyr)
+library(plotly)
+library(gganimate)
+library(ggThemeAssist)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(gapminder)
+library(viridis)
+library(highcharter)
+library(treemapify)
+library(treemap)
+
+fs::dir_create("datos")
+
+plataformas_1 <- rio::import("./datos/movies.csv")
+
+netflix_1 <- rio::import("./datos/netflix.csv")
+
+all_1 <- rio::import("./datos/all_weeks.csv")
+
+amazon_1 <- rio::import("./datos/amazon_prime_titles.csv")
+
+
+#dataframes arreglados para cogerlos como base
+
+netflix <-janitor::clean_names(netflix_1)
+
+plataformas <- janitor::clean_names(plataformas_1)
+
+all <- janitor::clean_names(all_1)
+
+amazon <- janitor::clean_names(amazon_1)
+
+#Gráfico 3
+#Hacer tablas
+
+tabla_3 <- netflix %>%
+  select(director,title) %>%
+  group_by(director) %>%
+  summarize(recuento= n()) %>%
+  filter(!is.na(recuento),recuento>7) %>%
+  arrange(desc(recuento)) %>%
+  slice(c(2:13))
+
+#Hacer el gráfico
+
+tabla3_3 <- tabla_3 %>% mutate(director = as_factor(director)) %>% mutate(director = fct_reorder(director,recuento))
+
+p3 <- ggplot(tabla3_3, aes(director,recuento,fct_rev(recuento)))+geom_bar(stat="identity") + geom_col(fill = "red" , color = "black")
+
+p3 + theme(axis.line = element_line(colour = "cadetblue",linetype = "longdash"), panel.background = element_rect(fill = NA), axis.text.x = element_text(vjust = 0.5,angle = 35)) +labs(title = "DIRECTORES CON MÁS PELÍCULAS PRODUCIDAS",
+    x = "Directores", y = "Nº Películas")
+
+
+```
+
+---
+
+## OTROS DATOS: Duración media de las películas
+
+Cuanto es el tiempo media que duran las películas en las plataformas online
+
+```{r}
+#| echo: false
+
+library(rio)
+library(tidyverse)
+library(forcats)
+library (ggthemes)
+library(ggThemeAssist)
+library(janitor)
+library(dplyr)
+library(plotly)
+library(gganimate)
+library(ggThemeAssist)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(gapminder)
+library(viridis)
+library(highcharter)
+library(treemapify)
+library(treemap)
+
+fs::dir_create("datos")
+
+plataformas_1 <- rio::import("./datos/movies.csv")
+
+netflix_1 <- rio::import("./datos/netflix.csv")
+
+all_1 <- rio::import("./datos/all_weeks.csv")
+
+amazon_1 <- rio::import("./datos/amazon_prime_titles.csv")
+
+
+#dataframes arreglados para cogerlos como base
+
+netflix <-janitor::clean_names(netflix_1)
+
+plataformas <- janitor::clean_names(plataformas_1)
+
+all <- janitor::clean_names(all_1)
+
+amazon <- janitor::clean_names(amazon_1)
+
+#Gráfico 4
+#Hacer tablas
+
+tabla_4 <- netflix %>%
+  separate(col=duration,into = c("duracion","min_o_temporadas"),sep=" ") %>%
+  select(duracion,title,content_type,min_o_temporadas)%>%
+  group_by(duracion,min_o_temporadas) %>%
+  summarize(recuento= n())%>%
+  filter(min_o_temporadas!="Season")%>%
+  filter(min_o_temporadas!="Seasons")%>%
+  mutate(duracion = as.numeric(duracion))%>% 
+  filter(duracion>=50)%>% 
+  filter(duracion<=190)
+
+
+#Hacer el gráfico
+
+p4 <- ggplot(tabla_4, aes(duracion,recuento)) + geom_point(color="red")+labs()+
+  annotate("rect", xmin = 80, xmax =120,ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "orange")+
+  annotate(geom = "text", x = 160, y = 80, label = "Media=105", size = 4,color="orange")+
+  annotate("segment", x = 100, xend = 100, y = 100, yend = -20, colour = "blue")+
+  labs(title =  "Duración media por pelicula")
+p4 + theme_classic()+geom_smooth()
+
+
+```
+
+---
+
+# Conclusiones
+
+Netflix es una plataforma muy grande donde abarca muchos géneros de
+películas y series muy diversas, con directores de todo tipo. Cabe
+añadir que últimamente están apareciendo bastantes plataformas en el
+mercado
+
+
+---
